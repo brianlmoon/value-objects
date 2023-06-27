@@ -2,6 +2,8 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+error_reporting(-1);
+
 /**
  * Function for helping debug tests since modern PHP Unit
  * does not allow var_dump to send output to STDOUT.

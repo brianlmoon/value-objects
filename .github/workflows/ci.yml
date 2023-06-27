@@ -3,7 +3,7 @@ name: Testing Moonspot\ValueObjects
 on: [push, pull_request]
 
 jobs:
-  build-test:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,5 +19,6 @@ jobs:
     - name: PHPUnit tests
       uses: php-actions/phpunit@v3
       with:
+        php_extensions: "pcov"
         version: 9.6
         php_version: 8.0
