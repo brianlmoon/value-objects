@@ -12,6 +12,15 @@ use Moonspot\ValueObjects\Interfaces\Data\Export;
  * @package     Moonspot\ValueObjects
  */
 abstract class ValueObject implements Export, \JsonSerializable {
+
+    /**
+     * Name of the property which represents a unique identifier
+     * for objects of a given type. E.g. the primary key for data
+     * stored in an RDBMS or document id for objects stored in a
+     * document store.
+     *
+     * @var        string
+     */
     public const UNIQUE_ID_FIELD = '';
 
     /**

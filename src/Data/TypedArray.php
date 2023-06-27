@@ -15,8 +15,20 @@ use Moonspot\ValueObjects\Interfaces\Data\Export;
  * @package     Moonspot\ValueObjects
  */
 abstract class TypedArray extends ArrayObject {
-    public const REQUIRED_TYPE = '';
 
+    /**
+     * Required type(s) for values added to the ArrayObject
+     *
+     * Built in PHP types supported by the settype() function and class
+     * names are supported.
+     *
+     * @var        array
+     */
+    public const REQUIRED_TYPE = [];
+
+    /**
+     * Constructs a new instance.
+     */
     public function __construct() {
         // don't allow access to the parent constructor
         parent::__construct();
@@ -134,79 +146,83 @@ abstract class TypedArray extends ArrayObject {
      * Filters the given value for the given type
      *
      * @param      mixed      $value  The value
-     * @param      string     $type   The type
+     * @param      array      $types  The types
      *
      * @throws     \UnexpectedValueException
      *
      * @return     mixed
      */
-    protected function filterType(mixed $value, string $type): mixed {
+    protected function filterType(mixed $value, array $types): mixed {
         $new_value = $value;
 
-        switch ($type) {
+        foreach ($types as $type) {
 
-            case 'array':
-                if (!is_array($value)) {
-                    $new_value = null;
-                    if (is_object($value) && $value instanceof \ArrayObject) {
-                        $new_value = $value->getArrayCopy();
+            switch ($type) {
+
+                case 'array':
+                    if (!is_array($value)) {
+                        $new_value = null;
+                        if (is_object($value) && $value instanceof \ArrayObject) {
+                            $new_value = $value->getArrayCopy();
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 'boolean':
-                if (!is_bool($value)) {
-                    $new_value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
-                }
-                break;
+                case 'boolean':
+                    if (!is_bool($value)) {
+                        $new_value = filter_var($value, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+                    }
+                    break;
 
-            case 'float':
-            case 'double':
-                // normalize to value that gettype returns
-                $type = 'double';
-                if (!is_float($value)) {
-                    $new_value = filter_var($value, FILTER_VALIDATE_FLOAT);
-                }
-                if ($new_value === false) {
-                    $new_value = null;
-                }
-                break;
+                case 'float':
+                case 'double':
+                    // normalize to value that gettype returns
+                    $type = 'double';
+                    if (!is_float($value)) {
+                        $new_value = filter_var($value, FILTER_VALIDATE_FLOAT);
+                    }
+                    if ($new_value === false) {
+                        $new_value = null;
+                    }
+                    break;
 
-            case 'integer':
-                if (!is_int($value)) {
-                    $int_value = (int)$value;
-                    if ($value == $int_value) {
-                        $new_value = $int_value;
+                case 'integer':
+                    if (!is_int($value)) {
+                        $int_value = (int)$value;
+                        if ($value == $int_value) {
+                            $new_value = $int_value;
+                        } else {
+                            $new_value = filter_var($value, FILTER_VALIDATE_INT);
+                        }
+                    }
+                    if ($new_value === false) {
+                        $new_value = null;
+                    }
+                    break;
+
+                case 'string':
+                    if (!is_scalar($value)) {
+                        $new_value = null;
                     } else {
-                        $new_value = filter_var($value, FILTER_VALIDATE_INT);
+                        $new_value = (string)$value;
                     }
-                }
-                if ($new_value === false) {
-                    $new_value = null;
-                }
-                break;
+                    break;
 
-            case 'string':
-                if (!is_scalar($value)) {
-                    $new_value = null;
-                } else {
-                    $new_value = (string)$value;
-                }
-                break;
+                default:
+                    // assume we have a class name
+                    if (is_array($value) && is_subclass_of($type, Export::class)) {
+                        $new_value = new $type();
+                        $new_value->fromArray($value);
+                    } else {
+                        $new_value = null;
+                    }
+                    break;
+            }
 
-            default:
-                // assume we have a class name
-                if (is_array($value) && is_subclass_of($type, Export::class)) {
-                    $new_value = new $type();
-                    $new_value->fromArray($value);
-                } else {
-                    $new_value = null;
-                }
+            if ($new_value !== null) {
+                $value = $new_value;
                 break;
-        }
-
-        if ($new_value !== null) {
-            $value = $new_value;
+            }
         }
 
         $valid = is_null($value) ||

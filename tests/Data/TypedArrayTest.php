@@ -148,7 +148,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         $array[0] = null;
 
         $typed_array                   = new class extends TypedArray {
-            public const REQUIRED_TYPE = 'integer';
+            public const REQUIRED_TYPE = ['integer'];
         };
 
         $typed_array[0] = 1;
@@ -199,7 +199,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
 
     public function testNonExportObjectException() {
         $object                        = new class extends TypedArray {
-            public const REQUIRED_TYPE = \stdClass::class;
+            public const REQUIRED_TYPE = [\stdClass::class];
         };
 
         $object[] = (object)['foo' => 1];
@@ -214,7 +214,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
      */
     public function testFilterType($value, $type, $expect, $exception = false) {
         $class = new class extends TypedArray {
-            public function testFilterType($value, string $type) {
+            public function testFilterType($value, array $type) {
                 return $this->filterType($value, $type);
             }
         };
@@ -232,105 +232,105 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         return [
             'array' => [
                 [1, 2, 3],
-                'array',
+                ['array'],
                 [1, 2, 3],
             ],
             'ArrayObject' => [
                 new \ArrayObject([1, 2, 3]),
-                'array',
+                ['array'],
                 [1, 2, 3],
             ],
             'boolean' => [
                 true,
-                'boolean',
+                ['boolean'],
                 true,
             ],
             'boolean int' => [
                 1,
-                'boolean',
+                ['boolean'],
                 true,
             ],
             'boolean string' => [
                 'true',
-                'boolean',
+                ['boolean'],
                 true,
             ],
             'boolean string int' => [
                 '1',
-                'boolean',
+                ['boolean'],
                 true,
             ],
             'double' => [
                 1.0,
-                'double',
+                ['double'],
                 1.0,
             ],
             'double from string' => [
                 '1.0',
-                'double',
+                ['double'],
                 1.0,
             ],
             'double from int' => [
                 1,
-                'double',
+                ['double'],
                 1.0,
             ],
             'double from int string' => [
                 '1',
-                'double',
+                ['double'],
                 1.0,
             ],
 
             'int' => [
                 1,
-                'integer',
+                ['integer'],
                 1,
             ],
             'int from string' => [
                 '1',
-                'integer',
+                ['integer'],
                 1,
             ],
             'int from double' => [
                 1.0,
-                'integer',
+                ['integer'],
                 1,
             ],
             'int from double string' => [
                 '1.0',
-                'integer',
+                ['integer'],
                 1,
             ],
 
             'string' => [
                 '1.0',
-                'string',
+                ['string'],
                 '1.0',
             ],
 
             'string from double' => [
                 1.2,
-                'string',
+                ['string'],
                 '1.2',
             ],
 
             'array to string exception' => [
                 [1, 2],
-                'string',
+                ['string'],
                 null,
                 true,
             ],
 
             'string to int exception' => [
                 'foo',
-                'integer',
+                ['integer'],
                 null,
                 true,
             ],
 
             'string to double exception' => [
                 'foo',
-                'double',
+                ['double'],
                 null,
                 true,
             ],
