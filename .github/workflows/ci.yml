@@ -14,11 +14,11 @@ jobs:
     - name: Composer Install
       uses: php-actions/composer@v6
       with:
-        php_version: 8.0
+        php_version: "8.0"
 
     - name: PHPUnit tests
       uses: php-actions/phpunit@v3
       with:
         php_extensions: "pcov"
-        version: 9.6
-        php_version: 8.0
+        version: "9.6"
+        php_version: "8.0"
