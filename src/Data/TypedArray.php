@@ -154,6 +154,7 @@ abstract class TypedArray extends ArrayObject {
      */
     protected function filterType(mixed $value, array $types): mixed {
         $new_value = $value;
+        $type      = null;
 
         foreach ($types as $type) {
 
