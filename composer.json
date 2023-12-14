@@ -2,6 +2,7 @@
     "name": "moonspot/value-objects",
     "description": "Base classes for creating value objects which are easy to work with in JSON apis",
     "type": "library",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Brian Moon",
