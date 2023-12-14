@@ -14,7 +14,6 @@ jobs:
           - operating-system: 'ubuntu-latest'
             php-versions: '8.0'
             phpunit-versions: 9
-
     steps:
 
     - name: Checkout
@@ -28,9 +27,9 @@ jobs:
     - name: PHPUnit tests
       uses: php-actions/phpunit@v3
       with:
-        php_extensions: "pcov"
+        php_extensions: "pcov yaml"
         version: "9.6"
         php_version: ${{ matrix.php-versions }}
 
     - name: Run Phan
-      uses: k1LoW/phan-action@latest
+      uses: k1LoW/phan-action@v0
