@@ -29,9 +29,9 @@ abstract class TypedArray extends ArrayObject {
     /**
      * Constructs a new instance.
      */
-    public function __construct() {
-        // don't allow access to the parent constructor
+    public function __construct(array $array = []) {
         parent::__construct();
+        $this->exchangeArray($array);
     }
 
     /**

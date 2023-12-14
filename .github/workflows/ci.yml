@@ -31,3 +31,6 @@ jobs:
         php_extensions: "pcov"
         version: "9.6"
         php_version: ${{ matrix.php-versions }}
+
+    - name: Run Phan
+      uses: k1LoW/phan-action@latest

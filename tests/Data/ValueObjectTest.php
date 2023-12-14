@@ -160,6 +160,25 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
+    public function testToYaml() {
+        $obj = $this->mockObject();
+
+        $obj->id      = 1;
+        $obj->name    = 'Test';
+        $obj->foo->id = 2;
+
+        $this->assertEquals(
+            yaml_emit([
+                'id'   => 1,
+                'name' => 'Test',
+                'foo'  => [
+                    'id' => 2,
+                ],
+            ]),
+            $obj->toYaml()
+        );
+    }
+
     public function testToArray() {
         $obj = $this->mockObject();
 

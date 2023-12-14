@@ -103,4 +103,24 @@ abstract class ValueObject implements Export, \JsonSerializable {
     public function fromJson(string $data): object {
         return $this->fromArray(json_decode($data, true));
     }
+
+    /**
+     * Returns a yaml representation of the object.
+     *
+     * @return     string  Yaml representation of the object.
+     */
+    public function toYaml(): string {
+        return yaml_emit($this->toArray());
+    }
+
+    /**
+     * Replaces the exisiting data in the object with data from YAML
+     *
+     * @param      string        $data   The data
+     *
+     * @return     self
+     */
+    public function fromYaml(string $data): object {
+        return $this->fromArray(yaml_parse($data));
+    }
 }

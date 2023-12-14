@@ -50,4 +50,20 @@ interface Export {
      * @return     object
      */
     public function fromJson(string $data): object;
+
+    /**
+     * Returns a yaml representation of the object.
+     *
+     * @return     string  Yaml representation of the object.
+     */
+    public function toYaml(): string;
+
+    /**
+     * Replaces the exisiting data in the object with data from YAML
+     *
+     * @param      string        $data   The data
+     *
+     * @return     self
+     */
+    public function fromYaml(string $data): object;
 }
