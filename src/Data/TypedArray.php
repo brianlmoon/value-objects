@@ -41,7 +41,7 @@ abstract class TypedArray extends ArrayObject {
      *
      * @throws \UnexpectedValueException
      */
-    public function append($value) {
+    public function append(mixed $value): void {
         $value = $this->filterType($value, $this::REQUIRED_TYPE);
         parent::append($value);
     }
@@ -54,7 +54,7 @@ abstract class TypedArray extends ArrayObject {
      * @return array
      * @throws \UnexpectedValueException
      */
-    public function exchangeArray($values): array {
+    public function exchangeArray(mixed $values): array {
         foreach ($values as $k => $value) {
             $values[$k] = $this->filterType($value, $this::REQUIRED_TYPE);
         }
@@ -91,7 +91,7 @@ abstract class TypedArray extends ArrayObject {
      *
      * @throws \UnexpectedValueException
      */
-    public function offsetSet($index, $value) {
+    public function offsetSet(mixed $index, mixed $value): void {
         $value = $this->filterType($value, $this::REQUIRED_TYPE);
         parent::offsetSet($index, $value);
     }
