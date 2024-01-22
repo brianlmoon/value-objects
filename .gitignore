@@ -2,6 +2,7 @@
 .DS_Store
 *~
 *.sw[aop]
+/test.php
 
 # Deployment dependencies
 vendor
