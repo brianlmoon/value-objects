@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Tests\Data;
+namespace Moonspot\ValueObjects\Tests;
 
-use Moonspot\ValueObjects\Data\ValueObject;
+use Moonspot\ValueObjects\ValueObject;
 
 /**
  * @author      Brian Moon <brian@moonspot.net>

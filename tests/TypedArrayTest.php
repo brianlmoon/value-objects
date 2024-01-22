@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Tests\Data;
+namespace Moonspot\ValueObjects\Tests;
 
-use Moonspot\ValueObjects\Data\TypedArray;
+use Moonspot\ValueObjects\TypedArray;
 
 /**
  * Class TypedArrayTest

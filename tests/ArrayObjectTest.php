@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Tests\Data;
+namespace Moonspot\ValueObjects\Tests;
 
-use Moonspot\ValueObjects\Data\ArrayObject;
+use Moonspot\ValueObjects\ArrayObject;
 
 /**
  * @author      Brian Moon <brian@moonspot.net>
@@ -45,5 +45,10 @@ class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertSame('[3,{"foo":4}]', $arr->toJson());
         $this->assertSame('[3,{"foo":4}]', json_encode($arr));
+
+        $arr->fromYaml("---\n- 3\n- foo: 5\n...\n");
+        $this->assertSame("---\n- 3\n- foo: 5\n...\n", $arr->toYaml());
+
+
     }
 }

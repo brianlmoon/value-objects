@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Data;
+namespace Moonspot\ValueObjects;
 
-use Moonspot\ValueObjects\Interfaces\Data\Export;
+use Moonspot\ValueObjects\Interfaces\Export;
 
 /**
  * Class TypedArray

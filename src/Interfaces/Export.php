@@ -1,6 +1,6 @@
 <?php
 
-namespace Moonspot\ValueObjects\Interfaces\Data;
+namespace Moonspot\ValueObjects\Interfaces;
 
 /**
  * Defines an interface for exporting and importing data

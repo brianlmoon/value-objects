@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Data;
+namespace Moonspot\ValueObjects;
 
-use Moonspot\ValueObjects\Interfaces\Data\Export;
+use Moonspot\ValueObjects\Interfaces\Export;
 
 /**
  * ArrayObject which implements the Export interface
@@ -11,7 +11,7 @@ use Moonspot\ValueObjects\Interfaces\Data\Export;
  * @copyright   2023-present Brian Moon
  * @package     Moonspot\ValueObjects
  */
-abstract class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
+class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
 
     /**
      * Returns an array representation of the object.

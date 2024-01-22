@@ -1,8 +1,8 @@
 <?php
 
-namespace Moonspot\ValueObjects\Tests\Data;
+namespace Moonspot\ValueObjects\Tests;
 
-use Moonspot\ValueObjects\Data\ValueObject;
+use Moonspot\ValueObjects\ValueObject;
 
 /**
  * @author      Brian Moon <brian@moonspot.net>
@@ -176,6 +176,31 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 ],
             ]),
             $obj->toYaml()
+        );
+    }
+
+    public function testFromYaml() {
+        $obj = $this->mockObject();
+
+        $obj->fromYaml(
+            yaml_emit([
+                'id'   => 1,
+                'name' => 'Test',
+                'foo'  => [
+                    'id' => 2,
+                ],
+            ])
+        );
+
+        $this->assertEquals(
+            [
+                'id'   => 1,
+                'name' => 'Test',
+                'foo'  => [
+                    'id' => 2,
+                ],
+            ],
+            $obj->toArray()
         );
     }
 
