@@ -30,12 +30,14 @@ abstract class ValueObject implements Export, \JsonSerializable {
      *
      * @return     array            Array representation of the object.
      */
-    public function toArray(): array {
-        $data = (array)$this;
+    public function toArray(?array $data = null): array {
+        $data ??= (array)$this;
         foreach ($data as $key => $value) {
             if (is_object($value)) {
                 if ($value instanceof Export) {
                     $data[$key] = $value->toArray();
+                } elseif (get_class($value) === \stdClass::class) {
+                    $data[$key] = (array)$value;
                 } else {
                     throw new \LogicException("Propety $key does not implement the Export interface");
                 }
@@ -61,6 +63,8 @@ abstract class ValueObject implements Export, \JsonSerializable {
                     if ($this->$key instanceof Export) {
                         $obj        = $this->$key;
                         $this->$key = $obj->fromArray($value);
+                    } elseif (get_class($this->$key) === \stdClass::class && is_array($value)) {
+                        $this->$key = (object)$value;
                     } else {
                         throw new \LogicException("Propety $key does not implement the Export interface");
                     }

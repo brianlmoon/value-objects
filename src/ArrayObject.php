@@ -11,7 +11,7 @@ use Moonspot\ValueObjects\Interfaces\Export;
  * @copyright   2023-present Brian Moon
  * @package     Moonspot\ValueObjects
  */
-class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
+abstract class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
 
     /**
      * Returns an array representation of the object.
@@ -22,7 +22,7 @@ class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
         $output = $this->getArrayCopy();
 
         foreach ($output as $key => $value) {
-            if (is_object($value) && method_exists($value, 'toArray')) {
+            if (is_object($value) && $value instanceof Export) {
                 $output[$key] = $value->toArray();
             }
         }

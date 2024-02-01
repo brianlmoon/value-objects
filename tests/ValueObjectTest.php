@@ -16,11 +16,14 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
             public string $name = '';
             public string $description;
             public object $foo;
+            public array  $data = [];
+            public object $bar;
 
             public function __construct() {
                 $this->foo     = new class extends ValueObject {
                     public $id = 0;
                 };
+                $this->bar = new \stdClass();
             }
         };
     }
@@ -144,6 +147,8 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'data' => [],
+                'bar'  => [],
             ]),
             $obj->toJson()
         );
@@ -155,6 +160,8 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'data' => [],
+                'bar'  => [],
             ]),
             json_encode($obj)
         );
@@ -174,6 +181,8 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'data' => [],
+                'bar'  => [],
             ]),
             $obj->toYaml()
         );
@@ -199,6 +208,8 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'data' => [],
+                'bar'  => [],
             ],
             $obj->toArray()
         );
@@ -218,6 +229,8 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'data' => [],
+                'bar'  => [],
             ],
             $obj->toArray()
         );
