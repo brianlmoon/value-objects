@@ -1,6 +1,6 @@
 name: Testing Moonspot\ValueObjects
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   test:
