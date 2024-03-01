@@ -30,8 +30,8 @@ abstract class ValueObject implements Export, \JsonSerializable {
      *
      * @return     array            Array representation of the object.
      */
-    public function toArray(): array {
-        $data = (array)$this;
+    public function toArray(?array $data = null): array {
+        $data ??= (array)$this;
         foreach ($data as $key => $value) {
             if (is_object($value)) {
                 if ($value instanceof Export) {

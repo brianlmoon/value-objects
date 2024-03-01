@@ -10,6 +10,34 @@ use Moonspot\ValueObjects\ValueObject;
  * @package     Moonspot\ValueObjects
  */
 class ValueObjectTest extends \PHPUnit\Framework\TestCase {
+
+    public function testOverrideToArray() {
+        $obj = new class extends ValueObject {
+            public int $id = 0;
+            public \DateTime $dt;
+
+            public function __construct() {
+                $this->dt = new \DateTime();
+            }
+
+            public function toArray(?array $data = null): array {
+                $data = (array)$this;
+                $data['dt'] = $data['dt']->format(\DateTime::ISO8601);
+                return parent::toArray($data);
+            }
+        };
+
+        $obj->dt->setTimestamp(strtotime('2005-08-15T15:52:01+0000'));
+
+        $this->assertEquals(
+            [
+                'id' => 0,
+                'dt' => '2005-08-15T15:52:01+0000',
+            ],
+            $obj->toArray()
+        );
+    }
+
     public function mockObject() {
         return new class extends ValueObject {
             public int    $id   = 0;
