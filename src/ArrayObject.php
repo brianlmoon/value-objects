@@ -18,12 +18,18 @@ class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
      *
      * @return     array  Array representation of the object.
      */
-    public function toArray(): array {
-        $output = $this->getArrayCopy();
+    public function toArray(?array $output = null): array {
+        $output ??= $this->getArrayCopy();
 
         foreach ($output as $key => $value) {
-            if (is_object($value) && method_exists($value, 'toArray')) {
-                $output[$key] = $value->toArray();
+            if (is_object($value)) {
+                if ($value instanceof Export) {
+                    $output[$key] = $value->toArray();
+                } elseif ($value instanceof \JsonSerializable) {
+                    $output[$key] = $value->jsonSerialize();
+                } else {
+                    throw new \LogicException("Object with key $key does not implement the Export or JsonSerializable interface");
+                }
             }
         }
 

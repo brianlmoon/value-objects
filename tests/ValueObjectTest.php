@@ -12,12 +12,19 @@ use Moonspot\ValueObjects\ValueObject;
 class ValueObjectTest extends \PHPUnit\Framework\TestCase {
 
     public function testOverrideToArray() {
+
         $obj = new class extends ValueObject {
             public int $id = 0;
             public \DateTime $dt;
+            public $child;
 
             public function __construct() {
                 $this->dt = new \DateTime();
+                $this->child = new class implements \JsonSerializable {
+                    public function jsonSerialize(): mixed {
+                        return [1,2,3];
+                    }
+                };
             }
 
             public function toArray(?array $data = null): array {
@@ -31,8 +38,9 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
 
         $this->assertEquals(
             [
-                'id' => 0,
-                'dt' => '2005-08-15T15:52:01+0000',
+                'id'    => 0,
+                'dt'    => '2005-08-15T15:52:01+0000',
+                'child' => [1,2,3],
             ],
             $obj->toArray()
         );

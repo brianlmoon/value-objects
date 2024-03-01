@@ -10,6 +10,57 @@ use Moonspot\ValueObjects\ArrayObject;
  * @package     Moonspot\ValueObjects
  */
 class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
+
+    /**
+     * @depends testOverrideToArray
+     */
+    public function testNonExportableObject($obj) {
+
+        $this->expectException(\LogicException::class);
+
+        $obj->append(new \stdClass());
+        $obj->toArray();
+
+    }
+
+    public function testOverrideToArray() {
+
+        $child1 = new class implements \JsonSerializable {
+            public function jsonSerialize(): mixed {
+                return [1,2,3];
+            }
+        };
+
+        $child2 = new \DateTime('2005-08-15T15:52:01+0000');
+
+        $obj = new class extends ArrayObject {
+
+            public function toArray(?array $output = null): array {
+                $output = $this->getArrayCopy();
+                foreach ($output as $prop => $value) {
+                    if ($value instanceof \DateTime) {
+                        $output[$prop] = $value->format(\DateTime::ISO8601);
+                    }
+                }
+                return parent::toArray($output);
+            }
+        };
+
+        $obj->append($child1);
+        $obj->append($child2);
+
+        $this->assertEquals(
+            [
+                [1,2,3],
+                '2005-08-15T15:52:01+0000'
+            ],
+            $obj->toArray()
+        );
+
+        return $obj;
+    }
+
+
     public function testBehavior() {
         $arr = new class extends ArrayObject {
         };
