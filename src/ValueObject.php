@@ -67,7 +67,14 @@ abstract class ValueObject implements Export, \JsonSerializable {
                         throw new \LogicException("Propety $key does not implement the Export interface");
                     }
                 } else {
-                    $this->$key = $value;
+                    try {
+                        $this->$key = $value;
+                    } catch (\TypeError $e) {
+                        // ignore trying to set values to null that are not nullable
+                        if($value !== null) {
+                            throw $e;
+                        }
+                    }
                 }
             }
         }
