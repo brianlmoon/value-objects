@@ -21,8 +21,9 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
             }
 
             public function toArray(?array $data = null): array {
-                $data = (array)$this;
+                $data       = (array)$this;
                 $data['dt'] = $data['dt']->format(\DateTime::ISO8601);
+
                 return parent::toArray($data);
             }
         };
@@ -44,6 +45,7 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
             public string $name = '';
             public string $description;
             public object $foo;
+            public array  $bar;
 
             public function __construct() {
                 $this->foo     = new class extends ValueObject {
@@ -139,8 +141,40 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
+    public function testFromArrayNulls() {
+        $obj = $this->mockObject();
+        $obj->fromArray(
+            [
+                'id'          => 1,
+                'name'        => null,
+                'description' => 'Test',
+                'foo'         => [
+                    'id' => 2,
+                ],
+                'bar'  => [
+                    'id' => 2,
+                ],
+            ]
+        );
+
+        $this->assertSame(
+            [
+                'id'          => 1,
+                'name'        => '',
+                'description' => 'Test',
+                'foo'         => [
+                    'id' => 2,
+                ],
+                'bar'  => [
+                    'id' => 2,
+                ],
+            ],
+            $obj->toArray()
+        );
+    }
+
     public function testFromArrayException() {
-        $this->expectException("\LogicException");
+        $this->expectException('\\LogicException');
 
         $obj = $this->mockBadObject();
         $obj->fromArray(
@@ -259,7 +293,7 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
         $obj->foo->id = 2;
         $obj->bar->id = 2;
 
-        $this->expectException("\LogicException");
+        $this->expectException('\\LogicException');
 
         $obj->toArray();
     }

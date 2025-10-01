@@ -11,6 +11,6 @@ use Moonspot\ValueObjects\TypedArray;
  */
 class ExampleTypedPropertySet extends TypedArray {
     public const REQUIRED_TYPE = [
-        ExampleTypedProperty::class
+        ExampleTypedProperty::class,
     ];
 }

@@ -226,7 +226,7 @@ abstract class TypedArray extends ArrayObject {
             }
         }
 
-        $valid = is_null($value) ||
+        $valid = is_null($value)          ||
                  gettype($value) == $type ||
                  (
                      is_object($value) &&

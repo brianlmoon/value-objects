@@ -3,6 +3,7 @@
 namespace Moonspot\ValueObjects\Tests;
 
 use Moonspot\ValueObjects\TypedArray;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class TypedArrayTest
@@ -209,9 +210,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         $object->toArray();
     }
 
-    /**
-     * @dataProvider filterTypeData
-     */
+    #[DataProvider('filterTypeData')]
     public function testFilterType($value, $type, $expect, $exception = false) {
         $class = new class extends TypedArray {
             public function testFilterType($value, array $type) {
@@ -228,7 +227,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         $this->assertSame($expect, $new_value);
     }
 
-    public function filterTypeData() {
+    public static function filterTypeData() {
         return [
             'array' => [
                 [1, 2, 3],
