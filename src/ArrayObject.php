@@ -30,6 +30,8 @@ class ArrayObject extends \ArrayObject implements Export, \JsonSerializable {
                 } else {
                     throw new \LogicException("Object with key $key does not implement the Export or JsonSerializable interface");
                 }
+            } elseif (is_array($value)) {
+                $output[$key] = $this->toArray($value);
             }
         }
 

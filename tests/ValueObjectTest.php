@@ -275,11 +275,17 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testToArray() {
+
+        $sub_obj = new class extends ValueObject {
+            public $id = 0;
+        };
+
         $obj = $this->mockObject();
 
         $obj->id      = 1;
         $obj->name    = 'Test';
         $obj->foo->id = 2;
+        $obj->bar[] = $sub_obj;
 
         $this->assertEquals(
             [
@@ -288,6 +294,11 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
                 'foo'  => [
                     'id' => 2,
                 ],
+                'bar' => [
+                    [
+                        'id'   => 0,
+                    ]
+                ]
             ],
             $obj->toArray()
         );

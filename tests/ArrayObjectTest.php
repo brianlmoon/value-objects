@@ -3,6 +3,7 @@
 namespace Moonspot\ValueObjects\Tests;
 
 use Moonspot\ValueObjects\ArrayObject;
+use PHPUnit\Framework\Attributes\Depends;
 
 /**
  * @author      Brian Moon <brian@moonspot.net>
@@ -11,9 +12,7 @@ use Moonspot\ValueObjects\ArrayObject;
  */
 class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
 
-    /**
-     * @depends testOverrideToArray
-     */
+    #[Depends('testOverrideToArray')]
     public function testNonExportableObject($obj) {
 
         $this->expectException(\LogicException::class);
@@ -67,7 +66,7 @@ class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
         $arr->fromArray([1]);
         $arr[] = 2;
         $arr[] = new ExampleTypedProperty();
-
+        $arr[] = [new ExampleTypedProperty()];
         $this->assertSame(1, $arr[0]);
         $this->assertSame(2, $arr[1]);
 
@@ -88,6 +87,21 @@ class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
                     'float_a'   => null,
                     'int_a'     => null,
                 ],
+                [
+                    [
+                        'name'      => null,
+                        'hire_date' => [
+                            'time'                  => null,
+                            'date'                  => null,
+                            'daylight_savings_time' => null,
+                        ],
+                        'position'  => null,
+                        'array_a'   => null,
+                        'boolean_a' => null,
+                        'float_a'   => null,
+                        'int_a'     => null,
+                    ],
+                ]
             ],
             $arr->toArray()
         );
