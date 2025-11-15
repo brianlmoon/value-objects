@@ -15,7 +15,8 @@
         "discard-changes": true
     },
     "require": {
-        "php": "^8.2"
+        "php": "^8.2",
+        "ext-yaml": "*"
     },
     "require-dev": {
         "php-parallel-lint/php-parallel-lint": "^1.4",

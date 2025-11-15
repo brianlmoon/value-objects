@@ -22,6 +22,7 @@ jobs:
     - name: Composer Install
       uses: php-actions/composer@v6
       with:
+        php_extensions: "yaml"
         php_version: ${{ matrix.php-versions }}
 
     - name: PHPUnit tests

@@ -41,6 +41,8 @@ abstract class ValueObject implements Export, \JsonSerializable {
                 } else {
                     throw new \LogicException("Propety $key does not implement the Export or JsonSerializable interface");
                 }
+            } elseif (is_array($value)) {
+                $data[$key] = $this->toArray($value);
             }
         }
 
