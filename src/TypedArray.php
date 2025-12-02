@@ -84,6 +84,15 @@ abstract class TypedArray extends ArrayObject {
     }
 
     /**
+     * Exposes the original getArrayCopy() method from ArrayObject
+     *
+     * @return      array
+     */
+    public function getOriginalArrayCopy(): array {
+        return parent::getArrayCopy();
+    }
+
+    /**
      * Part of the ArrayObject requirements and allows for array access of this object.
      *
      * @param mixed $index
