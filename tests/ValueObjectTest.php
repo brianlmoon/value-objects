@@ -35,7 +35,7 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
             }
         };
 
-        $obj->dt->setTimestamp(strtotime('2005-08-15T15:52:01+0000'));
+        $obj->dt = new \DateTime('2005-08-15T15:52:01+0000');
 
         $this->assertEquals(
             [
