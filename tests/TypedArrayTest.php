@@ -334,6 +334,46 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
                 true,
             ],
 
+            'multi-type object matches first listed type' => (function () {
+                $item = new ExampleTypedProperty();
+
+                return [
+                    $item,
+                    [ExampleTypedProperty::class, ExampleTypedSubProperty::class],
+                    $item,
+                ];
+            })(),
+
+            'multi-type object matches last listed type' => (function () {
+                $item = new ExampleTypedSubProperty();
+
+                return [
+                    $item,
+                    [ExampleTypedProperty::class, ExampleTypedSubProperty::class],
+                    $item,
+                ];
+            })(),
+
+            'multi-type object matches first listed type, reversed order' => (function () {
+                $item = new ExampleTypedSubProperty();
+
+                return [
+                    $item,
+                    [ExampleTypedSubProperty::class, ExampleTypedProperty::class],
+                    $item,
+                ];
+            })(),
+
+            'multi-type object matches last listed type, reversed order' => (function () {
+                $item = new ExampleTypedProperty();
+
+                return [
+                    $item,
+                    [ExampleTypedSubProperty::class, ExampleTypedProperty::class],
+                    $item,
+                ];
+            })(),
+
         ];
     }
 }

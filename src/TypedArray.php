@@ -220,7 +220,9 @@ abstract class TypedArray extends ArrayObject {
 
                 default:
                     // assume we have a class name
-                    if (is_array($value) && is_subclass_of($type, Export::class)) {
+                    if (is_object($value) && $value instanceof $type) {
+                        $new_value = $value;
+                    } elseif (is_array($value) && is_subclass_of($type, Export::class)) {
                         $new_value = new $type();
                         $new_value->fromArray($value);
                     } else {
