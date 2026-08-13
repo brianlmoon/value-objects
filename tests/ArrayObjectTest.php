@@ -76,11 +76,7 @@ class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
                 2,
                 [
                     'name'      => null,
-                    'hire_date' => [
-                        'time'                  => null,
-                        'date'                  => null,
-                        'daylight_savings_time' => null,
-                    ],
+                    'hire_date' => null,
                     'position'  => null,
                     'array_a'   => null,
                     'boolean_a' => null,
@@ -90,11 +86,7 @@ class ArrayObjectTest extends \PHPUnit\Framework\TestCase {
                 [
                     [
                         'name'      => null,
-                        'hire_date' => [
-                            'time'                  => null,
-                            'date'                  => null,
-                            'daylight_savings_time' => null,
-                        ],
+                        'hire_date' => null,
                         'position'  => null,
                         'array_a'   => null,
                         'boolean_a' => null,
