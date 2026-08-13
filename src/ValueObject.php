@@ -61,12 +61,12 @@ abstract class ValueObject implements Export, \JsonSerializable {
     public function fromArray(array $data): object {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                if (isset($this->$key) && is_object($this->$key)) {
+                if ((isset($this->$key) && is_object($this->$key)) || (!isset($this->$key) && $this->isNullableObject($key))) {
                     if ($this->$key instanceof Export) {
                         $obj        = $this->$key;
                         $this->$key = $obj->fromArray($value);
                     } else {
-                        throw new \LogicException("Propety $key does not implement the Export interface");
+                        throw new \LogicException("Property $key does not implement the Export interface");
                     }
                 } else {
                     try {
@@ -133,5 +133,30 @@ abstract class ValueObject implements Export, \JsonSerializable {
      */
     public function fromYaml(string $data): object {
         return $this->fromArray(yaml_parse($data));
+    }
+
+    /**
+     * Checks if the provided property ($key) type is a class and creates
+     * a new object from that class. Only reached when the property is null
+     * or not an object in fromArray above.
+     *
+     * @param string $key
+     * @return bool
+     * @throws \ReflectionException
+     */
+    protected function isNullableObject(string $key): bool {
+
+        $rp = new \ReflectionProperty($this, $key);
+        $rt = $rp->getType();
+
+        if($rt instanceof \ReflectionNamedType) {
+            $name = $rt->getName();
+            if(class_exists($name)) {
+                $this->$key = new $name();
+                return true;
+            }
+        }
+
+        return false;
     }
 }

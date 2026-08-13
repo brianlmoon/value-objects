@@ -148,7 +148,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         $array    = [1, 2, 3];
         $array[0] = null;
 
-        $typed_array                   = new class extends TypedArray {
+        $typed_array = new class extends TypedArray {
             public const REQUIRED_TYPE = ['integer'];
         };
 
@@ -172,6 +172,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
         $item->float_a   = 1.23;
         $item->int_a     = 123;
 
+        $item->hire_date                        = new ExampleTypedSubProperty();
         $item->hire_date->time                  = '10:00:00';
         $item->hire_date->date                  = '2022-01-01';
         $item->hire_date->daylight_savings_time = true;
@@ -183,10 +184,10 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
             [
                 'name'      => 'test',
                 'hire_date' => [
-                        'time'                  => '10:00:00',
-                        'date'                  => '2022-01-01',
-                        'daylight_savings_time' => true,
-                    ],
+                    'time'                  => '10:00:00',
+                    'date'                  => '2022-01-01',
+                    'daylight_savings_time' => true,
+                ],
                 'position'  => 'foo',
                 'array_a'   => [1],
                 'boolean_a' => false,
@@ -199,7 +200,7 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testNonExportObjectException() {
-        $object                        = new class extends TypedArray {
+        $object = new class extends TypedArray {
             public const REQUIRED_TYPE = [\stdClass::class];
         };
 
@@ -229,47 +230,47 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
 
     public static function filterTypeData() {
         return [
-            'array' => [
+            'array'                  => [
                 [1, 2, 3],
                 ['array'],
                 [1, 2, 3],
             ],
-            'ArrayObject' => [
+            'ArrayObject'            => [
                 new \ArrayObject([1, 2, 3]),
                 ['array'],
                 [1, 2, 3],
             ],
-            'boolean' => [
+            'boolean'                => [
                 true,
                 ['boolean'],
                 true,
             ],
-            'boolean int' => [
+            'boolean int'            => [
                 1,
                 ['boolean'],
                 true,
             ],
-            'boolean string' => [
+            'boolean string'         => [
                 'true',
                 ['boolean'],
                 true,
             ],
-            'boolean string int' => [
+            'boolean string int'     => [
                 '1',
                 ['boolean'],
                 true,
             ],
-            'double' => [
+            'double'                 => [
                 1.0,
                 ['double'],
                 1.0,
             ],
-            'double from string' => [
+            'double from string'     => [
                 '1.0',
                 ['double'],
                 1.0,
             ],
-            'double from int' => [
+            'double from int'        => [
                 1,
                 ['double'],
                 1.0,
@@ -280,17 +281,17 @@ class TypedArrayTest extends \PHPUnit\Framework\TestCase {
                 1.0,
             ],
 
-            'int' => [
+            'int'                    => [
                 1,
                 ['integer'],
                 1,
             ],
-            'int from string' => [
+            'int from string'        => [
                 '1',
                 ['integer'],
                 1,
             ],
-            'int from double' => [
+            'int from double'        => [
                 1.0,
                 ['integer'],
                 1,

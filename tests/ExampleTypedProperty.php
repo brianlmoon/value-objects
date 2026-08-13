@@ -11,14 +11,10 @@ use Moonspot\ValueObjects\ValueObject;
  */
 class ExampleTypedProperty extends ValueObject {
     public ?string $name = null;
-    public ExampleTypedSubProperty $hire_date;
+    public ?ExampleTypedSubProperty $hire_date = null;
     public ?string $position = null;
     public ?array $array_a   = null;
     public ?bool $boolean_a  = null;
     public ?float $float_a   = null;
     public ?int $int_a       = null;
-
-    public function __construct() {
-        $this->hire_date = new ExampleTypedSubProperty();
-    }
 }
