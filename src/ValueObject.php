@@ -61,7 +61,16 @@ abstract class ValueObject implements Export, \JsonSerializable {
     public function fromArray(array $data): object {
         foreach ($data as $key => $value) {
             if (property_exists($this, $key)) {
-                if ((isset($this->$key) && is_object($this->$key)) || (!isset($this->$key) && $this->isNullableObject($key))) {
+                if (
+                    $value !== null && (
+                        (
+                            isset($this->$key) &&
+                            is_object($this->$key)
+                        ) || (
+                            !isset($this->$key) && $this->isNullableObject($key)
+                        )
+                    )
+                ) {
                     if ($this->$key instanceof Export) {
                         $obj        = $this->$key;
                         $this->$key = $obj->fromArray($value);

@@ -181,6 +181,20 @@ class ValueObjectTest extends \PHPUnit\Framework\TestCase {
         );
     }
 
+    public function testFromArrayNullNullableObjectProperty() {
+        $obj = new ExampleTypedProperty();
+
+        $obj->fromArray(
+            [
+                'name'      => 'Test',
+                'hire_date' => null,
+            ]
+        );
+
+        $this->assertSame('Test', $obj->name);
+        $this->assertNull($obj->hire_date);
+    }
+
     public function testFromArrayException() {
         $this->expectException('\\LogicException');
 
